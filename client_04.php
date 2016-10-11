@@ -33,7 +33,17 @@ try{
 	
 	// Task #4: Call CurrencyConverterPlus and display its result:
 	
+	$ConversionRequest = new stdclass();
+	$ConversionRequest->from_Currency = "CNY";
+	$ConversionRequest->to_Currencies = array("EUR", "CAD", "TRY");
+	$ConversionRequest->amount = 1000;
+	$outAmount = $sClient->CurrencyConverterPlus($ConversionRequest);
 	
+	echo "\n   ", $ConversionRequest->amount, " ",$ConversionRequest->from_Currency, "\n";
+	foreach($outAmount as $occurence) {
+	  echo "\t ==> ",$occurence->amount, " ",$occurence->currency,"\n";
+	}
+
 	
 } catch(SoapFault $e){
 	echo "ERROR";

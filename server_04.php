@@ -14,7 +14,22 @@ function CurrencyConverter($from_Currency,$to_Currency,$amount) {
 	return round($amount * $rate, 2);
 };
 
+function CurrencyConverterPlus($from_Currency) {
+	$ccresult = array();
+	$var_amount = $from_Currency->amount;
+	$var_from_Currency = $from_Currency->from_Currency;
+	for ($i = 0; $i < count($from_Currency->to_Currencies); ++$i) {
+	  $ConversionResult = new stdclass();
+	  $ConversionResult->currency = $from_Currency->to_Currencies[$i];
+	  $ConversionResult->amount = CurrencyConverter($var_from_Currency, $from_Currency->to_Currencies[$i], $var_amount);
+	  array_push($ccresult, $ConversionResult);
+	}
+	return $ccresult;
+};
+
 // Task #4: Implement here the CurrencyConverterPlus function and add it to $server
+$server->addFunction("CurrencyConverterPlus");
+// 
 
 $server->addFunction("FahrenheitToCelsius");
 
