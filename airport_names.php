@@ -9,9 +9,27 @@ try{
   // Use $sClient to call the operation GetCitiesByCountry
   // echo the returned info as a JSON array of strings (city names)
 
-  header(':', true, 501); // Just remove this line to return the successful 
-                          // HTTP-response status code 200.
-  echo '["Not","Yet","Implemented"]';
+  $param = $_GET["country"];
+  
+  $country = new stdClass();
+  $country->country = $param;
+  
+  $result = new stdClass();
+  $result->GetAirportInformationByCountryResult;
+  
+  //echo $country;
+  $result = $sClient->GetAirportInformationByCountry($country);
+  $aux = $result->GetAirportInformationByCountryResult;
+  $aux = new SimpleXMLElement($aux);
+  $xml = new SimpleXMLElement("<airports></airports>");
+  
+  foreach($aux->children() as $table) {
+    $item = $xml->addChild('airport');
+    $item->name = $table->CityOrAirportName;
+    $item->code = $table->AirportCode;
+  }
+  $JSON = json_encode($xml);
+  echo $JSON;
 
 }
 catch(SoapFault $e){
