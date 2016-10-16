@@ -13,22 +13,23 @@ function showAirports () {
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       //Mostrar el llistat de aeroports al lateral
-      var airports = JSON.parse(xhttp.responseText);
-      //console.log(airports);
-      for (var i = 0; i<airports["airport"].length; i+=2) {
-	var airport_name = airports["airport"][i]["name"];
-	var airport_code = airports["airport"][i]["code"];
-	document.getElementById("left").innerHTML += "<div onClick='showAirportInfo()'><a href='#'>" + airport_name + " (" + airport_code + ")</a></div>";
+      var airports = JSON.parse(this.responseText);
+      var html = '';
+      for (var i = 0; i<airports.length; ++i) { 
+		var name = airports[i]["name"]; 
+		var code = airports[i]["code"]; 
+		html +="<div><a href='javascript:showAirportInfo("+'"'+code+'"'+")'>" + name + " (" + code + ")</a></div>"; 
+		
       }
+      document.getElementById("left").innerHTML = html;
     }
   };
   
 };
 
 
-function showAirportInfo (/*your parameters*/) {
+function showAirportInfo (code) {
 
-  document.getElementById("right").innerHTML = "Hello";
    
 }
 

@@ -15,22 +15,24 @@ try{
   $country->country = $param;
   
   $result = new stdClass();
-  $result->GetAirportInformationByCountryResult;
   
-  //echo $country;
   $result = $sClient->GetAirportInformationByCountry($country);
   $aux = $result->GetAirportInformationByCountryResult;
-  $aux = new SimpleXMLElement($aux);
-  $xml = new SimpleXMLElement("<airports></airports>");
-  
-  foreach($aux->children() as $table) {
-    $item = $xml->addChild('airport');
-    $item->name = $table->CityOrAirportName;
-    $item->code = $table->AirportCode;
-  }
-  $JSON = json_encode($xml);
-  echo $JSON;
+  $NewDataSet = new SimpleXMLElement($aux);
 
+  $array = array();
+  foreach($NewDataSet->Table as $table) {
+    $array[(string)$table->AirportCode] = (string)$table->CityOrAirportName;
+  }
+  ksort($array);
+  
+  $json = array();
+  foreach($array as $code => $name) {
+	  array_push($json, array("name" => $name, "code" => $code));
+  }
+    
+  echo json_encode($json);
+  
 }
 catch(SoapFault $e){
   header(':', true, 500);
