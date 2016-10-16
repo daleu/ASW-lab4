@@ -30,6 +30,24 @@ function showAirports () {
 
 function showAirportInfo (code) {
 
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET",uri+"/airport_info.php?code="+code, true);
+  xhttp.setRequestHeader("Content-Type", "text/json");
+  xhttp.send();
+  
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+	  var info = JSON.parse(this.responseText);
+	  var header = "<h1>Airport of " + info["CityOrAirportName"] + " (" + info["AirportCode"] + ")</h1>";
+	  var list = "<ul>" +
+	  "<li>Runway length: <b>"+ info["RunwayLengthFeet"] + "</b> feet</li>" + 
+	  "<li>Runway Elevation: <b>"+ info["RunwayElevationFeet"] + "</b> feet</li>" + 
+	  "<li>Coordinates: <b>"+ info["LatitudeDegree"] +"º"+info["LatitudeMinute"]+"'"+info["LatitudeSecond"]+"'' "+ info["LatitudeNpeerS"]+", "+
+							+ info["LongitudeDegree"]+"º"+info["LongitudeMinute"]+"'"+info["LongitudeSeconds"]+"'' "+info["LongitudeEperW"]+"</b></li></ul>";
+							
+	  document.getElementById("right").innerHTML = header + list;
+    }
+  };
    
 }
 
