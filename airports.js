@@ -24,7 +24,6 @@ function showAirports () {
       document.getElementById("left").innerHTML = html;
     }
   };
-  
 };
 
 
